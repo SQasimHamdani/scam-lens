@@ -1,0 +1,34 @@
+name: Missed or wrongly flagged message
+description: A scam was not caught, or a genuine message was flagged
+labels: [rules]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Remove names, phone numbers, account numbers and any personal data before pasting.**
+        Replace them with placeholders such as `[NAME]` or `[NUMBER]`.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What went wrong?
+      options:
+        - A scam message was not flagged (missed)
+        - A genuine message was flagged (false alarm)
+    validations:
+      required: true
+  - type: textarea
+    id: message
+    attributes:
+      label: The message (cleaned of personal data)
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: region
+    attributes:
+      label: Country / language (if relevant)
+  - type: textarea
+    id: why
+    attributes:
+      label: Why is this a scam / genuine?
+      description: A sentence on what makes it a red flag, or why it is legitimate.

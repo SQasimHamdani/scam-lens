@@ -1,0 +1,150 @@
+{
+  "name": "global",
+  "description": "Region-independent red flags that appear in scam messages worldwide.",
+  "rules": [
+    {
+      "id": "urgency",
+      "title": "Pressure to act quickly",
+      "weight": 1,
+      "explanation": "Scammers rush you so you do not stop to think or check. Real organisations rarely demand action within hours.",
+      "patterns": [
+        "\\burgent(?:ly)?\\b",
+        "\\bimmediately\\b",
+        "\\bact now\\b",
+        "\\blast chance\\b",
+        "\\bfinal (?:notice|warning)\\b",
+        "\\bwithin \\d{1,2} ?(?:hours?|hrs?|minutes?|mins?)\\b",
+        "\\bexpires? (?:today|tonight|soon)\\b"
+      ]
+    },
+    {
+      "id": "account-threat",
+      "title": "Threatens your account or service",
+      "weight": 2,
+      "explanation": "Messages that say your account will be locked, suspended or closed unless you click are a classic phishing hook.",
+      "patterns": [
+        "\\b(?:account|card|wallet|number|sim)\\b[^.!?\\n]{0,40}\\b(?:suspended|locked|blocked|deactivated|closed|limited|disabled)\\b",
+        "\\bunusual (?:activity|sign[- ]?in|login)\\b",
+        "\\bverify your (?:account|identity|details|information)\\b",
+        "\\bconfirm your (?:account|identity|details)\\b"
+      ]
+    },
+    {
+      "id": "credential-request",
+      "title": "Asks you to share a code, PIN or password",
+      "weight": 3,
+      "skip_if_negated": true,
+      "explanation": "No genuine bank, wallet or service will ask you to send or read out a one-time code, PIN, password or card security code.",
+      "patterns": [
+        "\\b(?:send|share|reply with|reply|enter|provide|confirm|give|tell|forward|read out|submit)\\b[^.!?\\n]{0,30}\\b(?:otp|one[- ]time (?:pass)?(?:code|word)|verification code|security code|pin|password|passcode|cvv|cvc|card number)\\b"
+      ]
+    },
+    {
+      "id": "prize",
+      "title": "Claims you have won something",
+      "weight": 2,
+      "explanation": "Unexpected prizes, lotteries and rewards you never entered are used to lure you into paying a fee or giving details.",
+      "patterns": [
+        "\\byou(?:'ve| have)? (?:been selected|won)\\b",
+        "\\b(?:lottery|lucky draw|sweepstakes?)\\b",
+        "\\bclaim your (?:reward|prize|gift|bonus|refund)\\b",
+        "\\bcongratulations\\b[^.!?\\n]{0,60}\\b(?:won|winner|selected|prize)\\b"
+      ]
+    },
+    {
+      "id": "unusual-payment",
+      "title": "Asks for payment in a hard-to-trace way",
+      "weight": 2,
+      "explanation": "Gift cards, crypto and wire transfers are favoured by scammers because they are hard to reverse or trace.",
+      "patterns": [
+        "\\bgift ?cards?\\b",
+        "\\b(?:itunes|google play|steam) cards?\\b",
+        "\\b(?:pay|send|transfer|deposit)\\b[^.!?\\n]{0,40}\\b(?:bitcoin|btc|crypto|usdt|ethereum)\\b",
+        "\\b(?:western union|moneygram|wire transfer)\\b"
+      ]
+    },
+    {
+      "id": "parcel-fee",
+      "title": "Delivery problem with a fee or address request",
+      "weight": 2,
+      "explanation": "Fake courier messages ask for a small 'redelivery' or customs fee, or for your address and card details.",
+      "patterns": [
+        "\\b(?:parcel|package|delivery|shipment)\\b[^.!?\\n]{0,60}\\b(?:fee|customs|redeliver\\w*|re-?schedule|unable to deliver|failed|on hold)\\b"
+      ]
+    },
+    {
+      "id": "legal-threat",
+      "title": "Threatens arrest, fines or legal action",
+      "weight": 2,
+      "explanation": "Fear of arrest or prosecution is used to force quick payment. Authorities do not demand payment by text message.",
+      "patterns": [
+        "\\b(?:arrest warrant|will be arrested|legal action|lawsuit|prosecuted|police case)\\b"
+      ]
+    },
+    {
+      "id": "too-good",
+      "title": "Promises easy or guaranteed money",
+      "weight": 2,
+      "explanation": "Guaranteed returns, doubled money and high pay for simple remote tasks are hallmarks of investment and job scams.",
+      "patterns": [
+        "\\bguaranteed (?:returns?|profits?|income)\\b",
+        "\\bdouble your (?:money|investment)\\b",
+        "\\bearn\\b[^.!?\\n]{0,25}\\b(?:per day|daily|a day|per hour)\\b",
+        "\\bwork from home\\b[^.!?\\n]{0,40}\\b(?:earn|income|salary|\\$|usd)\\b"
+      ]
+    },
+    {
+      "id": "secrecy",
+      "title": "Asks you to keep it secret",
+      "weight": 2,
+      "explanation": "Scammers isolate victims so friends and family cannot spot the scam.",
+      "patterns": [
+        "\\bdo(?: not|n't) tell (?:anyone|anybody|your family|your bank)\\b",
+        "\\bkeep (?:this|it) (?:a )?(?:secret|confidential|between us)\\b"
+      ]
+    },
+    {
+      "id": "family-impersonation",
+      "title": "'Hi Mum/Dad, this is my new number' pattern",
+      "weight": 2,
+      "explanation": "Scammers pose as a child or relative on a new number and then ask for urgent money. Call the person on their old number first.",
+      "patterns": [
+        "\\b(?:hi|hello|hey) (?:mum|mom|dad)\\b[^.!?\\n]{0,80}\\b(?:new number|lost my phone|broke my phone|new phone)\\b"
+      ]
+    },
+    {
+      "id": "remote-access",
+      "title": "Asks you to install an app or remote-access tool",
+      "weight": 3,
+      "explanation": "Remote-access tools and unknown APK files give a scammer control of your phone or computer and your banking apps.",
+      "patterns": [
+        "\\b(?:install|download|open)\\b[^.!?\\n]{0,40}\\b(?:anydesk|teamviewer|quicksupport|rustdesk|\\.apk)\\b"
+      ]
+    },
+    {
+      "id": "click-link",
+      "title": "Tells you to click a link",
+      "weight": 1,
+      "explanation": "Links in unexpected messages are the main way phishing works. Go to the official app or website yourself instead.",
+      "patterns": [
+        "\\bclick (?:the |on the |this )?(?:link|here|below)\\b",
+        "\\btap (?:the |on the |this )?(?:link|here|below)\\b"
+      ]
+    }
+  ],
+  "brands": [
+    {"name": "paypal", "domains": ["paypal.com", "paypal.me"]},
+    {"name": "amazon", "domains": ["amazon.com", "amazon.co.uk", "amazon.de", "amazon.in", "amazon.ca", "amazon.com.au", "amzn.to", "amzn.com"]},
+    {"name": "apple", "domains": ["apple.com", "icloud.com"]},
+    {"name": "microsoft", "domains": ["microsoft.com", "live.com", "office.com", "outlook.com"]},
+    {"name": "google", "domains": ["google.com", "gmail.com", "goo.gl", "g.co"]},
+    {"name": "netflix", "domains": ["netflix.com"]},
+    {"name": "dhl", "domains": ["dhl.com", "dhl.de"]},
+    {"name": "fedex", "domains": ["fedex.com"]},
+    {"name": "ups", "domains": ["ups.com"]},
+    {"name": "usps", "domains": ["usps.com"]},
+    {"name": "whatsapp", "domains": ["whatsapp.com", "wa.me"]},
+    {"name": "facebook", "domains": ["facebook.com", "fb.com", "fb.me"]},
+    {"name": "instagram", "domains": ["instagram.com"]}
+  ]
+}

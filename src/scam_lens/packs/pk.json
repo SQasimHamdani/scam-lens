@@ -1,0 +1,45 @@
+{
+  "name": "pk",
+  "description": "Starter pack for scam patterns commonly reported in Pakistan (community contributions welcome).",
+  "rules": [
+    {
+      "id": "pk-relief-payment",
+      "title": "Unofficial 'relief payment' or income-support claim",
+      "weight": 2,
+      "explanation": "Scammers send texts claiming you are eligible for a government payment and ask you to click a link, send an ID number or pay a fee. Check eligibility only through the official channels you already know.",
+      "patterns": [
+        "\\b(?:bisp|benazir income support|ehsaas|kafaalat)\\b[^.!?\\n]{0,80}\\b(?:click|link|claim|register|verify|send|cnic)\\b"
+      ]
+    },
+    {
+      "id": "pk-sim-block",
+      "title": "Says your SIM or number will be blocked",
+      "weight": 2,
+      "explanation": "Messages saying your SIM will be blocked unless you act now are a common social-engineering hook. Contact your network using a number you already trust.",
+      "patterns": [
+        "\\b(?:sim|number|connection)\\b[^.!?\\n]{0,40}\\b(?:blocked|deactivated|suspended)\\b[^\\n]{0,60}\\b(?:verify|biometric|cnic|click|call|reply)\\b",
+        "\\bpta\\b[^.!?\\n]{0,60}\\b(?:block|verify|notice|action)\\b"
+      ]
+    },
+    {
+      "id": "pk-prize-draw",
+      "title": "Prize-bond, 'inam' or lucky-draw claim",
+      "weight": 2,
+      "explanation": "Surprise prize, 'inam' or lucky-draw messages that ask for a fee or personal details are almost always scams.",
+      "patterns": [
+        "\\b(?:inam|inaam|lucky draw|prize bond)\\b[^.!?\\n]{0,80}\\b(?:won|winner|claim|congratulations|selected|call|click)\\b",
+        "\\b(?:mubarak|mubarik)\\b[^.!?\\n]{0,60}\\b(?:inam|inaam|jeeta|jeet)\\b"
+      ]
+    },
+    {
+      "id": "pk-mobile-wallet",
+      "title": "Mobile wallet or account 'limited/blocked' warning",
+      "weight": 2,
+      "explanation": "Fake alerts say your mobile wallet is limited or blocked and ask for a PIN, CNIC or OTP. Wallet providers never ask for your PIN or OTP by message or call.",
+      "patterns": [
+        "\\b(?:mobile (?:wallet|account)|wallet)\\b[^.!?\\n]{0,50}\\b(?:blocked|limited|suspended|closed|verify)\\b"
+      ]
+    }
+  ],
+  "brands": []
+}
