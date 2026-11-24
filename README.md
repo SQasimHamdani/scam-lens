@@ -9,6 +9,20 @@ message or email and get a list of the specific red flags it contains, such as p
 requests for a code or password, look-alike links and fake delivery fees. It runs entirely on
 your own computer. Your messages are never sent anywhere.
 
+## See it in action
+
+**A typical scam text**: pressure, a code request and a hidden link, each explained:
+
+![scam-lens flags a message that asks for an OTP, threatens the account and uses a shortened link](docs/images/01-likely-scam.png)
+
+**A look-alike link**: the message names a real brand but the link goes somewhere else:
+
+![scam-lens flags a link that imitates the PayPal name](docs/images/02-lookalike-link.png)
+
+**A genuine notice is left alone**: warnings such as "Do not share it with anyone" are not mistaken for requests. Even then the answer is *no known red flags*, never "safe":
+
+![scam-lens finds no known red flags in a genuine one-time-code notice](docs/images/03-genuine-otp.png)
+
 ## Vision
 
 Scam messages are written to make people panic and click. Most people who fall for them are not
