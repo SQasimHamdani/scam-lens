@@ -32,6 +32,8 @@ Rules are JSON objects in a pack file:
 ```
 
 - `weight`: 1 = weak signal, 2 = strong, 3 = very strong. Be conservative.
+- `group` (optional): give the same value to rules that describe the same clue, for example a
+  regional version of `account-threat`. Only one rule per group is reported and scored.
 - `patterns`: case-insensitive regular expressions (remember to escape backslashes in JSON).
 - `skip_if_negated`: set to `true` if the phrase also appears in genuine warnings
   (for example "do **not** share your OTP").

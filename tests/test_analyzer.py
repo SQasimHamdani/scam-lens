@@ -9,6 +9,7 @@ from scam_lens import (
     analyze,
     list_packs,
     load_pack,
+    load_pack_file,
 )
 from scam_lens.cli import main
 from scam_lens.urls import find_urls, host_of
@@ -148,3 +149,48 @@ def test_cli_exit_codes_and_json(capsys):
 def test_cli_reports_bad_pack(capsys):
     assert main(["-p", "nope", "hello"]) == 64
     assert "unknown pack" in capsys.readouterr().err
+
+
+def both_packs():
+    return [load_pack("global"), load_pack("pk")]
+
+
+@pytest.mark.parametrize(
+    "text, regional_rule",
+    [
+        ("Your wallet has been blocked.", "pk-mobile-wallet"),
+        ("Your SIM will be blocked today, call to verify.", "pk-sim-block"),
+        ("Lucky draw: you are the winner!", "pk-prize-draw"),
+    ],
+)
+def test_same_clue_from_two_packs_counts_once(text, regional_rule):
+    report = analyze(text, both_packs())
+    assert [f.rule_id for f in report.findings] == [regional_rule]
+    assert report.score == 2
+    assert report.verdict == SUSPICIOUS
+
+
+def test_pack_order_does_not_change_the_score():
+    text = "Your wallet has been blocked."
+    assert analyze(text, both_packs()[::-1]).score == analyze(text, both_packs()).score
+
+
+def test_separate_clues_still_add_up():
+    report = analyze("Your wallet has been blocked. Send your OTP now.", both_packs())
+    assert ids(report) == {"pk-mobile-wallet", "credential-request"}
+    assert report.score == 5
+
+
+def test_heavier_rule_wins_within_a_group(tmp_path):
+    pack = {
+        "name": "custom",
+        "rules": [{"id": "custom-wallet", "title": "t", "weight": 3, "explanation": "e",
+                   "group": "account-threat", "patterns": ["wallet"]}],
+    }
+    path = tmp_path / "custom.json"
+    path.write_text(json.dumps(pack), encoding="utf-8")
+    for packs in ([load_pack("global"), load_pack_file(str(path))],
+                  [load_pack_file(str(path)), load_pack("global")]):
+        report = analyze("Your wallet has been blocked.", packs)
+        assert [f.rule_id for f in report.findings] == ["custom-wallet"]
+        assert report.score == 3

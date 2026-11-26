@@ -13,6 +13,7 @@
     },
     {
       "id": "pk-sim-block",
+      "group": "account-threat",
       "title": "Says your SIM or number will be blocked",
       "weight": 2,
       "explanation": "Messages saying your SIM will be blocked unless you act now are a common social-engineering hook. Contact your network using a number you already trust.",
@@ -23,6 +24,7 @@
     },
     {
       "id": "pk-prize-draw",
+      "group": "prize",
       "title": "Prize-bond, 'inam' or lucky-draw claim",
       "weight": 2,
       "explanation": "Surprise prize, 'inam' or lucky-draw messages that ask for a fee or personal details are almost always scams.",
@@ -33,6 +35,7 @@
     },
     {
       "id": "pk-mobile-wallet",
+      "group": "account-threat",
       "title": "Mobile wallet or account 'limited/blocked' warning",
       "weight": 2,
       "explanation": "Fake alerts say your mobile wallet is limited or blocked and ask for a PIN, CNIC or OTP. Wallet providers never ask for your PIN or OTP by message or call.",

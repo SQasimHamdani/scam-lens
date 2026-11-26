@@ -105,7 +105,8 @@ for finding in report.findings:
   reported in Pakistan). More regional packs are welcome.
 
 How the verdict works: each red flag has a weight (low 1, medium 2, high 3) and each rule counts
-once. A score of 0 is *no known red flags*, 1–2 is *suspicious*, 3 or more is *likely a scam*.
+once. Rules from different packs that describe the same clue share a group and count once between
+them. A score of 0 is *no known red flags*, 1–2 is *suspicious*, 3 or more is *likely a scam*.
 These thresholds are simple on purpose and are open to discussion in the issues.
 
 ## Privacy

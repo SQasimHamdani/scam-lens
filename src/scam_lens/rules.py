@@ -20,6 +20,7 @@ class Rule:
     explanation: str
     patterns: Tuple["re.Pattern[str]", ...]
     skip_if_negated: bool = False
+    group: str = ""  # rules sharing a group describe one clue and score once
 
 
 @dataclass(frozen=True)
@@ -57,6 +58,7 @@ def _parse_pack(data: dict, source: str) -> Pack:
                     explanation=str(raw["explanation"]),
                     patterns=patterns,
                     skip_if_negated=bool(raw.get("skip_if_negated", False)),
+                    group=str(raw.get("group", "")),
                 )
             )
         brands = [

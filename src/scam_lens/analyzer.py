@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Sequence
+from typing import Dict, List, Optional, Sequence, Tuple
 
 from .rules import Pack, load_pack
 from .urls import belongs_to, find_urls, host_of, link_signals
@@ -86,6 +86,8 @@ def analyze(text: str, packs: Optional[Sequence[Pack]] = None) -> Report:
     findings: Dict[str, Finding] = {}
 
     # 1. Wording rules from the packs. Each rule counts once, however often it matches.
+    # group -> (weight, matched length, rule id) of the rule that currently represents it.
+    groups: Dict[str, Tuple[int, int, str]] = {}
     for pack in packs:
         for rule in pack.rules:
             if rule.id in findings:
@@ -98,6 +100,15 @@ def analyze(text: str, packs: Optional[Sequence[Pack]] = None) -> Report:
                     hit = match
                     break
                 if hit:
+                    if rule.group:
+                        # Keep the heavier rule, then the one that matched more text.
+                        rank = (rule.weight, hit.end() - hit.start())
+                        best = groups.get(rule.group)
+                        if best:
+                            if rank < best[:2]:
+                                break
+                            del findings[best[2]]
+                        groups[rule.group] = (*rank, rule.id)
                     findings[rule.id] = Finding(
                         rule.id, rule.title, rule.weight, rule.explanation, _snippet(text, hit.start(), hit.end())
                     )
