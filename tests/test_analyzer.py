@@ -1,4 +1,6 @@
+import io
 import json
+import sys
 
 import pytest
 
@@ -194,3 +196,24 @@ def test_heavier_rule_wins_within_a_group(tmp_path):
         report = analyze("Your wallet has been blocked.", packs)
         assert [f.rule_id for f in report.findings] == ["custom-wallet"]
         assert report.score == 3
+
+
+@pytest.mark.parametrize("encoding", ["cp1252", "ascii"])
+@pytest.mark.parametrize("extra", [[], ["--json"]])
+def test_cli_survives_characters_the_output_cannot_encode(monkeypatch, encoding, extra):
+    raw = io.BytesIO()
+    stream = io.TextIOWrapper(raw, encoding=encoding)
+    monkeypatch.setattr(sys, "stdout", stream)
+    # Cyrillic 'a' inside the host name, plus an emoji outside the basic plane.
+    code = main(extra + ["Urgent \U0001F6A8 click here https://pаypal.example.com/login"])
+    stream.flush()
+    output = raw.getvalue().decode(encoding)
+    assert code == 1  # suspicious, not a crash
+    assert r"p\u0430ypal.example.com" in output  # printed as a visible escape
+    if extra:
+        assert json.loads(output)["links"] == ["https://pаypal.example.com/login"]
+
+
+def test_cli_keeps_readable_characters_when_output_supports_them(capsys):
+    main(["Urgent https://pаypal.example.com/login"])
+    assert "pаypal.example.com" in capsys.readouterr().out

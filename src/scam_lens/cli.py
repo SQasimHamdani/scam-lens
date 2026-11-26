@@ -40,6 +40,24 @@ def format_report(report: Report) -> str:
     return "\n".join(lines)
 
 
+def _can_encode(text: str, encoding: str) -> bool:
+    try:
+        text.encode(encoding)
+        return True
+    except UnicodeEncodeError:
+        return False
+
+
+def _render(report: Report, as_json: bool) -> str:
+    """The report as text that is guaranteed to be printable on the current output."""
+    encoding = getattr(sys.stdout, "encoding", None) or "utf-8"
+    if as_json:
+        out = json.dumps(report.to_dict(), indent=2, ensure_ascii=False)
+        # JSON has its own escapes, so the output stays valid and loses nothing.
+        return out if _can_encode(out, encoding) else json.dumps(report.to_dict(), indent=2)
+    return format_report(report).encode(encoding, "backslashreplace").decode(encoding)
+
+
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="scam-lens",
@@ -85,7 +103,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 64
 
     report = analyze(text, packs)
-    print(json.dumps(report.to_dict(), indent=2, ensure_ascii=False) if args.json else format_report(report))
+    print(_render(report, args.json))
     return _EXIT[report.verdict]
 
 
