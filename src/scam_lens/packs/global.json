@@ -19,6 +19,7 @@
     },
     {
       "id": "account-threat",
+      "group": "account-threat",
       "title": "Threatens your account or service",
       "weight": 2,
       "explanation": "Messages that say your account will be locked, suspended or closed unless you click are a classic phishing hook.",
@@ -41,6 +42,7 @@
     },
     {
       "id": "prize",
+      "group": "prize",
       "title": "Claims you have won something",
       "weight": 2,
       "explanation": "Unexpected prizes, lotteries and rewards you never entered are used to lure you into paying a fee or giving details.",

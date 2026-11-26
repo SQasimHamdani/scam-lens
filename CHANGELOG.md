@@ -5,6 +5,12 @@ All notable changes are documented here. The format follows
 [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- The same clue is no longer scored twice when packs overlap (#3). Some messages that were
+  *likely a scam* only because of the double count are now *suspicious*.
+
+### Added
+- Optional `group` field for rules in a pack.
 
 ## [0.1.0] - 2026-11-24
 ### Added
