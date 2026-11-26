@@ -6,6 +6,8 @@ All notable changes are documented here. The format follows
 
 ## [Unreleased]
 ### Fixed
+- No more crash on Windows when look-alike or non-Latin characters are printed to redirected or
+  piped output (#5).
 - The same clue is no longer scored twice when packs overlap (#3). Some messages that were
   *likely a scam* only because of the double count are now *suspicious*.
 
